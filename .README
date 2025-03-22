@@ -1,0 +1,42 @@
+/php_mvc
+│
+├── /public
+│   ├── /css
+│   │   └── style.css
+│   ├── /js
+│   │   └── app.js
+│   ├── /images
+│   └── index.php
+│
+├── /src
+│   ├── /Controllers
+│   │   └── UserController.php
+│   ├── /Models
+│   │   └── User.php
+│   ├── /Views
+│   │   ├── /layouts
+│   │   │   └── main.php
+│   │   ├── /errors
+│   │   │   └── 404.php
+│   │   └── /user
+│   │       ├── index.php
+│   │       └── show.php
+│   ├── /Repositories
+│   │   └── UserRepository.php
+│   ├── /Config
+│   │   └── Database.php
+│   ├── /Core
+│   │   ├── Route.php
+│   │   └── View.php
+│   └── /Interfaces
+│       └── UserRepositoryInterface.php
+│
+├── /vendor
+│   └── autoload.php
+│
+├── .env
+├── .env.example
+├── .gitignore
+├── composer.json
+├── routes.php
+└── .htaccess

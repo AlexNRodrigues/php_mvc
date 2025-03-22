@@ -1,0 +1,15 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Config\\": "src/Config/",
+            "Controllers\\": "src/Controllers/",
+            "Core\\": "src/Core/",
+            "Interfaces\\": "src/Interfaces/",
+            "Models\\": "src/Models/",
+            "Repositories\\": "src/Repositories/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

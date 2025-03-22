@@ -1,0 +1,23 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Define a base URL para evitar problemas com caminhos relativos
+RewriteBase /php_mvc/
+
+# Redireciona todas as outras requisições para /public/index.php, exceto arquivos e diretórios existentes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^$ public/index.php [L]
+RewriteRule ^(.*)$ public/index.php?url=$1 [QSA,L]
+
+# Protege arquivos sensíveis
+<FilesMatch "^\.">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "(composer\.json|composer\.lock|.env)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
