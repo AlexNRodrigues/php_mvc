@@ -14,9 +14,15 @@ $router->get('/teste/{id}', function($id) {
 });
 
 
-// Rotas para usuários
-$router->get('/users', 'UserController', 'index');
-$router->get('/users/show/{id}', 'UserController', 'show');
-$router->post('/users/store', 'UserController', 'store');
+$router->prefix('/adm', function($router) {
+    $router->get('/', 'Admin\AdminController', 'index');
+    $router->get('/dashboard', 'Admin\AdminController', 'dashboard');
+});
 
-// Adicione mais rotas aqui conforme necessário
+$router->prefix('/api', function($router) {
+    $router->prefix('/v1', function($router) {
+        $router->get('/users', function() {
+            echo "Rota aninhada /api/v1/users";
+        });
+    });
+});

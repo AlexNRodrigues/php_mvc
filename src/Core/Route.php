@@ -10,6 +10,7 @@ class Route
     protected $routes = [];
     protected $requestMethod;
     protected $requestUri;
+    protected $prefix = '';
 
     public function __construct()
     {
@@ -30,7 +31,11 @@ class Route
      */
     public function get($uri, $controller, $method = null)
     {
-        $this->addRoute('GET', $uri, $controller, $method);
+        $fullUri = $uri === '/' 
+            ? rtrim($this->prefix, '/') 
+            : rtrim($this->prefix, '/') . '/' . ltrim($uri, '/');
+
+        $this->addRoute('GET', $fullUri, $controller, $method);
     }
 
     /**
@@ -42,7 +47,28 @@ class Route
      */
     public function post($uri, $controller, $method = null)
     {
-        $this->addRoute('POST', $uri, $controller, $method);
+        // Concatenar o prefixo com a URI, normalizando barras
+        $fullUri = rtrim($this->prefix, '/') . '/' . ltrim($uri, '/');
+        $this->addRoute('POST', $fullUri, $controller, $method);
+    }
+
+    /**
+     * Define um grupo de rotas com um prefixo comum
+     * @param string $prefix Prefixo a ser adicionado às URIs
+     * @param Closure $callback Função que define as rotas internas
+     * @return void
+     */
+    public function prefix($prefix, Closure $callback)
+    {
+        // Salvar o prefixo atual e acumular o novo prefixo
+        $originalPrefix = $this->prefix;
+        $this->prefix = rtrim($originalPrefix, '/') . '/' . ltrim($prefix, '/');
+
+        // Executar a closure, passando a instância atual
+        call_user_func($callback, $this);
+
+        // Restaurar o prefixo original após a execução
+        $this->prefix = $originalPrefix;
     }
 
     /**
@@ -75,7 +101,7 @@ class Route
     protected function convertToRegex($uri)
     {
         $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '([^/]+)', $uri);
-        return "#^" . $pattern . "$#";
+        return "#^" . $pattern . "/?$#";
     }
 
     /**
