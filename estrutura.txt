@@ -1,0 +1,231 @@
+CREATE TABLE IF NOT EXISTS `alunos` (
+  `ra` int(11) NOT NULL,
+  `turma_id` int(11) DEFAULT NULL,
+  `nome` varchar(255) DEFAULT NULL,
+  `data_nasc` varchar(255) DEFAULT NULL,
+  `turma` varchar(255) DEFAULT NULL,
+  `turno` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ra`),
+  KEY `turma_id` (`turma_id`),
+  KEY `idx_alunos_ra` (`ra`)
+)
+
+CREATE TABLE IF NOT EXISTS `descritores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `descritor` varchar(255) DEFAULT NULL,
+  `habilidade` text DEFAULT NULL,
+  `materia` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE IF NOT EXISTS `disciplinas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) DEFAULT NULL,
+  `curso` varchar(255) DEFAULT NULL,
+  `turno` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE IF NOT EXISTS `gabarito_alunos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `aluno` varchar(255) DEFAULT NULL,
+  `ra` varchar(255) DEFAULT NULL,
+  `turma` varchar(255) DEFAULT NULL,
+  `turno` varchar(255) DEFAULT NULL,
+  `id_prova` int(11) DEFAULT NULL,
+  `serie` int(11) DEFAULT NULL,
+  `nome_professor` varchar(255) DEFAULT NULL,
+  `descritores` varchar(255) DEFAULT NULL,
+  `disciplina` varchar(255) DEFAULT NULL,
+  `nome_prova` varchar(255) DEFAULT NULL,
+  `pontos_prova` float DEFAULT NULL,
+  `QNT_perguntas` int(11) DEFAULT NULL,
+  `data_aluno` date DEFAULT NULL,
+  `acertos` int(11) DEFAULT NULL,
+  `porcentagem` int(11) DEFAULT NULL,
+  `pontos_aluno` int(11) DEFAULT NULL,
+  `pontos_aluno_quebrado` float DEFAULT NULL,
+  `perguntas_respostas` varchar(255) DEFAULT NULL,
+  `perguntas_certas` varchar(255) DEFAULT NULL,
+  `perguntas_erradas` varchar(255) DEFAULT NULL,
+  `descritores_certos` varchar(255) DEFAULT NULL,
+  `descritores_errados` varchar(255) DEFAULT NULL,
+  `recuperacao` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `metodo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE IF NOT EXISTS `gabarito_alunos_primeira_prova` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `aluno` varchar(255) DEFAULT NULL,
+  `ra` varchar(255) DEFAULT NULL,
+  `turma` varchar(255) DEFAULT NULL,
+  `turno` varchar(255) DEFAULT NULL,
+  `id_prova` int(11) DEFAULT NULL,
+  `serie` int(11) DEFAULT NULL,
+  `nome_professor` varchar(255) DEFAULT NULL,
+  `descritores` varchar(255) DEFAULT NULL,
+  `disciplina` varchar(255) DEFAULT NULL,
+  `nome_prova` varchar(255) DEFAULT NULL,
+  `pontos_prova` float DEFAULT NULL,
+  `QNT_perguntas` int(11) DEFAULT NULL,
+  `data_aluno` date DEFAULT NULL,
+  `acertos` int(11) DEFAULT NULL,
+  `porcentagem` int(11) DEFAULT NULL,
+  `pontos_aluno` int(11) DEFAULT NULL,
+  `pontos_aluno_quebrado` float DEFAULT NULL,
+  `perguntas_respostas` varchar(255) DEFAULT NULL,
+  `perguntas_certas` varchar(255) DEFAULT NULL,
+  `perguntas_erradas` varchar(255) DEFAULT NULL,
+  `descritores_certos` varchar(255) DEFAULT NULL,
+  `descritores_errados` varchar(255) DEFAULT NULL,
+  `metodo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE IF NOT EXISTS `gabarito_professores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `professor_id` int(11) DEFAULT NULL,
+  `nome_professor` varchar(255) DEFAULT NULL,
+  `nome_prova` varchar(255) DEFAULT NULL,
+  `turmas` varchar(255) DEFAULT NULL,
+  `descritores` text DEFAULT NULL,
+  `disciplina` varchar(255) DEFAULT NULL,
+  `valor` int(11) DEFAULT NULL,
+  `QNT_perguntas` int(11) DEFAULT NULL,
+  `data_prova` date DEFAULT NULL,
+  `gabarito` text DEFAULT NULL,
+  `liberado` varchar(255) DEFAULT NULL,
+  `liberar_prova` varchar(255) DEFAULT NULL,
+  `metodo` varchar(255) DEFAULT NULL,
+  `area_conhecimento` varchar(150) DEFAULT NULL,
+  `orientacoes` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `professor_id` (`professor_id`),
+  CONSTRAINT `FK_gabarito_professores_professores` FOREIGN KEY (`professor_id`) REFERENCES `professores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+)
+
+CREATE TABLE IF NOT EXISTS `logs_adm` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `autor` varchar(255) DEFAULT NULL,
+  `data` datetime DEFAULT NULL,
+  `descricao` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE IF NOT EXISTS `logs_professor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `autor` varchar(255) DEFAULT NULL,
+  `data` datetime DEFAULT NULL,
+  `descricao` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE IF NOT EXISTS `mensagem_arquivos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mensagem_id` int(11) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `caminho` varchar(255) NOT NULL,
+  `tipo` varchar(50) DEFAULT NULL,
+  `tamanho` int(11) DEFAULT NULL,
+  `carregado_em` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `mensagem_id` (`mensagem_id`)
+)
+
+CREATE TABLE IF NOT EXISTS `mensagem_destinatarios` (
+  `mensagem_id` int(11) DEFAULT NULL,
+  `turma_id` int(11) DEFAULT NULL,
+  `professor_id` int(11) DEFAULT NULL,
+  `aluno_id` int(11) DEFAULT NULL,
+  `disciplina_id` int(11) DEFAULT NULL,
+  KEY `mensagem_id` (`mensagem_id`),
+  KEY `turma_id` (`turma_id`),
+  KEY `professor_id` (`professor_id`),
+  KEY `aluno_id` (`aluno_id`),
+  KEY `disciplina_id` (`disciplina_id`)
+)
+
+CREATE TABLE IF NOT EXISTS `mensagens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `remetente_id` int(11) DEFAULT NULL,
+  `conteudo` text DEFAULT NULL,
+  `criado_em` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE IF NOT EXISTS `periodo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) DEFAULT NULL,
+  `data_inicial` date DEFAULT NULL,
+  `data_final` date DEFAULT NULL,
+  `data_criacao` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE IF NOT EXISTS `professores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) DEFAULT NULL,
+  `usuario` varchar(255) DEFAULT NULL,
+  `senha` varchar(255) DEFAULT NULL,
+  `numero` varchar(30) DEFAULT NULL,
+  `disciplinas` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE IF NOT EXISTS `professor_turma_disciplinas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `professor_id` int(11) NOT NULL,
+  `turma_id` int(11) NOT NULL,
+  `disciplina_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `professor_id` (`professor_id`,`turma_id`,`disciplina_id`),
+  KEY `turma_id` (`turma_id`),
+  KEY `disciplina_id` (`disciplina_id`)
+)
+
+CREATE TABLE IF NOT EXISTS `simulados` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `turma_id` int(11) DEFAULT NULL,
+  `nome` varchar(50) DEFAULT NULL,
+  `area_conhecimento` varchar(255) DEFAULT NULL,
+  `data` datetime NOT NULL,
+  `orientacoes` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `turma_id` (`turma_id`)
+)
+
+CREATE TABLE IF NOT EXISTS `simulados_prova` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `simulado_id` int(11) DEFAULT NULL,
+  `gabarito_professor_id` int(11) DEFAULT NULL,
+  `ordem` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK__simulados` (`simulado_id`),
+  KEY `FK__gabarito_professores` (`gabarito_professor_id`)
+)
+
+CREATE TABLE IF NOT EXISTS `turmas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) DEFAULT NULL,
+  `turno` varchar(255) DEFAULT NULL,
+  `serie` varchar(255) DEFAULT NULL,
+  `curso` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+CREATE TABLE IF NOT EXISTS `turma_disciplinas` (
+  `turma_id` int(11) DEFAULT NULL,
+  `disciplina_id` int(11) DEFAULT NULL
+)
+
+CREATE TABLE IF NOT EXISTS `usuarios_pfa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) DEFAULT NULL,
+  `usuario` varchar(255) DEFAULT NULL,
+  `senha` varchar(255) DEFAULT NULL,
+  `turno` varchar(255) DEFAULT NULL,
+  `disciplina` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)

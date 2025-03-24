@@ -1,7 +1,8 @@
 <?php
 namespace Interfaces;
 
-interface UserRepositoryInterface {
+interface ProfessorRepositoryInterface {
+    public function authenticate($numero, $senha);
     public function findAll();
     public function findById($id);
     public function save($user);

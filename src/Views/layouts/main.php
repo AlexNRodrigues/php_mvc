@@ -1,20 +1,30 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
-    <title><?php echo isset($title) ? $title : 'Minha Aplicação'; ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= isset($title) ? $title : 'Minha Aplicação'; ?></title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/style.css">
 </head>
 
 <body>
-    <header>
-        <h1>Minha Aplicação</h1>
-        <nav>
-            <a href="<?php echo BASE_URL; ?>/users">Usuários</a>
-        </nav>
-    </header>
+    <nav>
+        <a href="/php_mvc/home">Home</a>
+        <?php
 
+        use Core\Session;
+
+        Session::start(); ?>
+        <?php if (Session::isLoggedIn()): ?>
+            <?php if (Session::getAccessLevel() === 'admin'): ?>
+                <a href="/php_mvc/adm/dashboard">Admin Dashboard</a>
+            <?php endif; ?>
+            <a href="/php_mvc/logout">Logout</a>
+        <?php else: ?>
+            <a href="/php_mvc/login">Login</a>
+        <?php endif; ?>
+    </nav>
     <main>
         <?php echo $content; ?>
     </main>
