@@ -14,7 +14,7 @@ use Core\Route;
 
 $router = new Route();
 
-require_once __DIR__ . '/../src/routes.php'; // Arquivo de definição de rotas
+require_once __DIR__ . '/../src/Routers/web.php'; // Arquivo de definição de rotas
 
 
 $router->dispatch();

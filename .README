@@ -28,6 +28,8 @@
 │   ├── /Core
 │   │   ├── Route.php
 │   │   └── View.php
+|   ├── /Routers
+│   │   └── web.php
 │   └── /Interfaces
 │       └── UserRepositoryInterface.php
 │
@@ -38,5 +40,4 @@
 ├── .env.example
 ├── .gitignore
 ├── composer.json
-├── routes.php
 └── .htaccess

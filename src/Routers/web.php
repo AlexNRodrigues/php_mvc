@@ -15,7 +15,8 @@ $router->get('/', function() {
 });
 
 $router->get('/home', function () {
-    echo 'home';
+    $view = new View();
+    $view->setLayout('layouts.main')->render('layouts.home');
 });
 
 // // Rota para /teste usando uma closure com parâmetros dinâmicos
@@ -23,11 +24,10 @@ $router->get('/home', function () {
 //     echo "Teste com ID: " . $id;
 // });
 
-
-// $router->prefix('/adm', function($router) {
-//     $router->get('/', 'Admin\AdminController', 'index');
-//     $router->get('/dashboard', 'Admin\AdminController', 'dashboard');
-// });
+$router->prefix('/admin', function($router) {
+    $router->get('/', 'Admin\AdminController', 'index');
+    $router->get('/dashboard', 'Admin\AdminController', 'dashboard');
+});
 
 // $router->prefix('/api', function($router) {
 //     $router->prefix('/v1', function($router) {
