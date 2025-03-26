@@ -15,12 +15,6 @@ class ProfessorRepository implements ProfessorRepositoryInterface {
     public function authenticate($numero, $senha) {
         $stmt = $this->db->prepare("SELECT * FROM professores WHERE numero = :numero AND senha = :senha");
         
-        // $stmt->execute(['numero' => $numero]);
-        // $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        // if ($user && password_verify($password, $user['password'])) {
-        //     return $user;
-        // }
-
         $stmt->execute(['numero' => $numero, 'senha' => $senha]);
 
         return $stmt->fetchObject(Professor::class);

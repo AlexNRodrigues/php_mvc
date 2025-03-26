@@ -183,4 +183,48 @@ class Route
             ->with(['title' => '404 - Página Não Encontrada'])
             ->render('errors.404');
     }
+
+    /**
+     * Redireciona para uma rota definida
+     * @param string $uri URI da rota (ex.: '/home', '/adm/dashboard', '/users/{id}')
+     * @param array $params Parâmetros dinâmicos para a rota (ex.: ['id' => 123])
+     * @return void
+     */
+    public function redirect($uri, $params = [])
+    {
+        $redirectUrl = $this->url($uri, $params);
+        header("Location: $redirectUrl");
+        exit;
+    }
+
+    /**
+     * Gera a URL para uma rota definida
+     * @param string $uri URI da rota (ex.: '/home', '/adm/dashboard', '/users/{id}')
+     * @param array $params Parâmetros dinâmicos (ex.: ['id' => 123])
+     * @return string URL gerada
+     * @throws \Exception Se a rota não for encontrada
+     */
+    public function url($uri, $params = [])
+    {
+        $baseUrl = dirname($_SERVER['SCRIPT_NAME']); // Base do projeto
+        $fullUri = trim($uri, '/');
+
+        // Procurar a rota correspondente
+        foreach ($this->routes as $route) {
+            if ($route['uri'] === '/' . $fullUri) {
+                $url = $route['uri'];
+                foreach ($params as $key => $value) {
+                    $url = str_replace("{{$key}}", $value, $url);
+                }
+                return rtrim($baseUrl, '/') . $url;
+            }
+        }
+
+        // Se não encontrar, assume que é uma rota estática e aplica os parâmetros
+        $url = '/' . $fullUri;
+        foreach ($params as $key => $value) {
+            $url = str_replace("{{$key}}", $value, $url);
+        }
+        return rtrim($baseUrl, '/') . $url;
+    }
 }

@@ -10,19 +10,18 @@
 
 <body>
     <nav>
-        <a href="/php_mvc/home">Home</a>
+        <a href="<?= $router->url('/home') ?>">Home</a>
         <?php
-
-        use Core\Session;
-
-        Session::start(); ?>
+            use Core\Session;
+            Session::start(); 
+        ?>
         <?php if (Session::isLoggedIn()): ?>
             <?php if (Session::getAccessLevel() === 'admin'): ?>
                 <a href="/php_mvc/adm/dashboard">Admin Dashboard</a>
             <?php endif; ?>
-            <a href="/php_mvc/logout">Logout</a>
+            <a href="<?= $router->url('/logout') ?>">Logout</a>
         <?php else: ?>
-            <a href="/php_mvc/login">Login</a>
+            <a href="<?= $router->url('/login') ?>">Login</a>
         <?php endif; ?>
     </nav>
     <main>

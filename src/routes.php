@@ -14,6 +14,10 @@ $router->get('/', function() {
     $view->setLayout('layouts.main')->render('layouts.home');
 });
 
+$router->get('/home', function () {
+    echo 'home';
+});
+
 // // Rota para /teste usando uma closure com parâmetros dinâmicos
 // $router->get('/teste/{id}', function($id) {
 //     echo "Teste com ID: " . $id;

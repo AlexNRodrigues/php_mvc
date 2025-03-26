@@ -51,6 +51,8 @@ class View
             throw new \Exception("View file '$view' not found in path: $viewFile");
         }
 
+        $router = new Route();
+
         // Extrair os dados para o escopo da view
         extract($this->data);
 

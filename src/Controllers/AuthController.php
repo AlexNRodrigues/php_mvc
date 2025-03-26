@@ -9,8 +9,7 @@ class AuthController extends Controller {
 
     public function login() {
         if (Session::isLoggedIn()) {
-            header('Location: localhost/php_mvc/');
-            exit;
+            $this->router->redirect('/');
         }
 
         $error = null;
@@ -24,8 +23,7 @@ class AuthController extends Controller {
                 Session::set('usuario_id', $userData->id);
                 Session::set('usuario', $userData);
                 Session::set('nivel_acesso', 'professor');
-                header('Location: localhost/php_mvc/');
-                exit;
+                $this->router->redirect('/');
             } else {
                 $error = "Credenciais inválidas";
 
@@ -40,7 +38,6 @@ class AuthController extends Controller {
 
     public function logout() {
         Session::destroy();
-        header('Location: /login');
-        exit;
+        $this->router->redirect('/login');
     }
 }
