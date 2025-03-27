@@ -2,11 +2,14 @@
 
 namespace Controllers\Admin;
 
-class AdminController
+use Controllers\Controller;
+
+class AdminController extends Controller
 {
     public function index()
     {
-        dd('Admin Index');
+        $this->view->setLayout('layouts.admin')
+            ->render('admin.index');
     }
 
     public function dashboard()
